@@ -47,6 +47,14 @@
 </div>
 
 <div class="field">
+	<label for="geolocation_gmaps_key">Google key</label>
+	<div class="inputs">
+		<input type="text" class="textinput"  name="geolocation_gmaps_key" size="25" value="<?php echo get_option('geolocation_gmaps_key'); ?>" id="geolocation_gmaps_key" />
+        <p class="explanation">The google key for auto completion of search. No autocomplete when left empty.</p>
+	</div>
+</div>
+
+<div class="field">
     <label for="geolocation_link_to_nav">Add Link to Map on Items/Browse Navigation</label>
     <div class="inputs">
         <?php echo __v()->formCheckbox('geolocation_link_to_nav', true, 

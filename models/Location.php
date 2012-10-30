@@ -11,7 +11,18 @@ class Location extends Omeka_Record
     public $longitude;
     public $zoom_level;
     public $map_type;
-    public $address;
+
+	public $point_of_interest;             #spot
+	public $route;                         #straat
+	public $sublocality;                   #stadsdeel
+    public $locality;                      #plaats
+    public $administrative_area_level_2;   #gemeente
+    public $administrative_area_level_1;   #povincie
+    public $country;                       #land
+    public $continent;                     
+    public $planetary_body;
+
+    public $address;						#original search term
     
     protected function _validate()
     {
