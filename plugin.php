@@ -48,12 +48,13 @@ function geolocation_install()
 	`street_number` VARCHAR( 255 ) NULL ,
 	`sublocality` VARCHAR( 255 ) NULL ,
 	`locality` VARCHAR( 255 ) NULL ,
+	`administrative_area_level_1` VARCHAR( 255 ) NULL ,
 	`administrative_area_level_2` VARCHAR( 255 ) NULL ,
+	`administrative_area_level_3` VARCHAR( 255 ) NULL ,
 	`natural_feature` VARCHAR( 255 ) NULL ,
 	`establishment` VARCHAR( 255 ) NULL ,
 	`postal_code` VARCHAR( 255 ) NULL ,
 	`postal_code_prefix` VARCHAR( 255 ) NULL ,
-	`administrative_area_level_1` VARCHAR( 255 ) NULL ,
 	`country` VARCHAR( 255 ) NOT NULL ,
 	`continent` VARCHAR( 255 ) NULL ,
 	`planetary_body` VARCHAR( 255 ) NULL ,
@@ -277,8 +278,9 @@ function geolocation_scripts()
 {
     $ht = '';
     $ht .= geolocation_load_google_maps();
+#	$ht .= "<script>jQuery.noConflict();</script>";
+#    $ht .= js('jquery'); #messes with Omeka's native buttons. FIX IT!
     $ht .= js('map');
-    $ht .= js('jquery');
     return $ht;
 }
 
@@ -467,20 +469,21 @@ function geolocation_autocomplete($key = null){
 	if (!$key) {
         $key = get_option('geolocation_gmaps_key') ? get_option('geolocation_gmaps_key') : 'AIzaSyD6zj4P4YxltcYJZsRVUvTqG_bT1nny30o';
     }
+	$lang = "nl";
 
-	echo '<script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&key=' . $key . '"></script>';
+	echo '<script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&key=' . $key . '&language='.$lang.'"></script>';
 	?>
 	
     <script>
 	function reset(){
 		resetTextareas();
+		jQuery(".maintextinput").val("");
 		initialize();
-		$(".maintextinput").val("");
 	}
 	
 	function resetTextareas(){
-		$(".geotextinput").val("");
-		$("#planetary_body").val("Aarde");
+		jQuery(".geotextinput").val("");
+		jQuery("#planetary_body").val("Aarde");
 	}
 	
 	function initialize() {//function initialize() {
@@ -534,13 +537,16 @@ function geolocation_autocomplete($key = null){
 			infowindow.open(map, marker);
 			if (place.address_components) {
 				resetTextareas();
-				$("#latitude").val(lat);
-				$("#longitude").val(lng);
+//				$("#latitude").val(lat);
+//				$("#longitude").val(lng);
 				for(var i in place.address_components) {
 					var value = (place.address_components[i] && place.address_components[i].long_name || '');
-					$("#"+place.address_components[i].types[0]).val(value);
+//					jQuery('#geolocation-latitude').val(gLatLng.lat());
+					jQuery("#"+place.address_components[i].types[0]).val(value);
 				}
-				$("#planetary_body").val("Aarde");
+				jQuery("#planetary_body").val("Aarde");
+//				$("#planetary_body").val("Aarde"); 
+
 			}
 		});
 	}
